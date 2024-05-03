@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#send-btn').click(function(){
+                var userMessage = $('#user-message').val();
+                $('#user-message').val('');
+                if (userMessage.trim() !== '') {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/get-response',
+                        data: { user_message: userMessage },
+                        success: function(data) {
+                            $('#chat-area').append('<div><strong>User:</strong> ' + userMessage + '</div>');
+                            $('#chat-area').append('<div><strong>Chatbot:</strong> ' + data.response + '</div>');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Chatbot</h1>
+    <div id="chat-area"></div>
+    <input type="text" id="user-message">
+    <button id="send-btn">Send</button>
+</body>
+</html>
